@@ -1,0 +1,5 @@
+azure-cognitiveservices-vision-customvision
+
+msrest~=0.6.21
+requests~=2.25.1
+pillow
