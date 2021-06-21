@@ -131,3 +131,8 @@ dmypy.json
 .DS_Store
 backups
 dev.env
+
+# exports
+
+exported_model.zip
+exported
