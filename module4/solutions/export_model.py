@@ -3,7 +3,7 @@ import time
 import zipfile
 
 import requests
-from azure.cognitiveservices.vision.customvision.prediction.models import CustomVisionErrorException
+from azure.cognitiveservices.vision.customvision.training.models._models_py3 import CustomVisionErrorException
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from msrest.authentication import ApiKeyCredentials
 
@@ -55,6 +55,7 @@ if project_id is None:
     raise ValueError("Project does not exist")
 
 # The iteration is now trained. Export it!
+print('Exporting Model Iteration...')
 iterations = trainer.get_iterations(project_id=project_id)
 try:
     trainer.export_iteration(project_id=project_id, iteration_id=iterations[0].id, platform='DockerFile', flavor='Linux')
@@ -63,10 +64,11 @@ except CustomVisionErrorException:
 
 
 exports = trainer.get_exports(project_id=project_id, iteration_id=iterations[0].id)
-while len(exports) == 0:
-    print("Waiting 10 seconds...")
+while exports[0].status == 'Exporting':
     exports = trainer.get_exports(project_id=project_id, iteration_id=iterations[0].id)
+    print("Exporting. Waiting 10 seconds...")
     time.sleep(10)
+print('Model export is found. Downloading...')
 download_uri = exports[0].download_uri
 
 

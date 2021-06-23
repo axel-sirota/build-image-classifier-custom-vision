@@ -19,9 +19,8 @@ for project in projects:
     if project.name == project_name:
         project_id = project.id
 
-# Now there is a trained endpoint that can be used to make a prediction. Authenticate for predictions
-prediction_credentials = ApiKeyCredentials(in_headers={"Prediction-key": prediction_key})
-predictor = CustomVisionPredictionClient(endpoint, prediction_credentials)
+# Authenticate for predictions
+
 
 for root, dirs, files in os.walk("images/Test", topdown=False):
     for image in files:
